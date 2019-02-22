@@ -36,6 +36,10 @@ wwp = merge_phyloseq(wwp,sample_data(meta))
 # remove negative controls
 wwp = subset_samples(wwp, sample_names(wwp) %ni% c("WS-Neg-1","WS-Neg-2","WS-Neg-3","WS-Pos-1"))
 
+# Correct mistakes in SOM data entry (sample 3.2 = 4.83; sample 15.5 = 2.6725)
+sample_data(wwp)["WS-3-2","per_som"] <- 4.83
+sample_data(wwp)["WS-15-5","per_som"] <- 2.6725
+
 # Re-separate fungi and bacteria for downstream
 Bact = subset_taxa(wwp, Kingdom == "Bacteria")
 Fung = subset_taxa(wwp, Kingdom == "k__Fungi")

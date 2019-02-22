@@ -7,13 +7,14 @@ library(ggtern)
 library(plyr)
 library(vegan)
 library(ade4)
+library(phyloseq)
 
 # load phyloseq object (Full WWP data set) ####
 wwp = readRDS("./output/WWP_Full_phyloseq_object.RDS")
 wwp.pa = readRDS("./output/WWP_Full_phyloseq_object_presence-absence.RDS")
 
-# bact = readRDS("./output/WWP_16S_phyloseq.RDS")
-# fung = readRDS("./output/WWP_ITS_phyloseq.RDS")
+ bact = readRDS("./output/WWP_16S_phyloseq.RDS")
+ fung = readRDS("./output/WWP_ITS_phyloseq.RDS")
 
 # remove any empty samples or ASVs
 wwp.pa = subset_taxa(wwp.pa, sample_sums(wwp.pa) > 0)
@@ -88,8 +89,9 @@ meta <- as(sample_data(wwp.pa), "data.frame")
 element.names=c("Al","As","B","Ca","Cd","Co","Cr","Cu","Fe","K","Mg","Mn","Mo","Na","Ni","P","S","Ti","Zn")
 
 # add variable showing whether each sample is "mound" or "depression"
-
-??????
+sample_data(wwp.pa)$Position = sample_data(wwp.pa)$Ele >= 375.2
+sample_data(wwp.pa)$Position[sample_data(wwp.pa)$Position == TRUE] <- "Mound"
+sample_data(wwp.pa)$Position[sample_data(wwp.pa)$Position == FALSE] <- "InterMound"
 
 # gather element values to make plotting easier
 elements = gather(meta,key = Element, value = Value, element.names)
@@ -109,7 +111,7 @@ spatial.dist.full = dist(cbind(wwp.pa@sam_data$lon, wwp.pa@sam_data$lat), method
 comm.dist.full = dist(as.matrix(wwp.pa@otu_table), method = "binary")
 mantel.test.full = mantel.rtest(spatial.dist.full, comm.dist.full, nrepet = 999)
 
-ggplot(mapping = aes(x=jitter(spatial.dist,amount=1), y=comm.dist.full)) +
+ggplot(mapping = aes(x=jitter(spatial.dist.full,amount=1), y=comm.dist.full)) +
   geom_point(alpha=.05) + stat_smooth(method = "lm") + 
   labs(x="Spatial Distance",y="Full Community Distance") + theme_bw()
 ggsave("./output/figs/full_community_mantel.png", dpi=300)
@@ -127,11 +129,11 @@ mantel.test.bact = mantel.rtest(spatial.dist.bact, comm.dist.bact, nrepet = 999)
 # Try WCMD
 otus = dist(otu_table(wwp.pa))
 wcmd.full = wcmdscale(otus,k=2, eig=TRUE)
-wcmd.df = data.frame(Dim1 = wcmd.full$points[,1], Dim2 = wcmd.full$points[,2], cluster = meta$cluster)
+wcmd.df = data.frame(Dim1 = wcmd.full$points[,1], Dim2 = wcmd.full$points[,2], Position = sample_data(wwp.pa)$Position)
 
-ggplot(wcmd.df, aes(x=Dim1,y=Dim2, color = factor(cluster))) +
-  geom_point()
+ggplot(wcmd.df, aes(x=Dim1,y=Dim2, color = Position)) +
+  geom_point() + stat_ellipse() + theme_bw()
+ggsave("./output/figs/NMDS_Mound-Intermound.png",dpi=300)
 
 
-
-biplot(wcmd.full)
+#biplot(wcmd.full)
