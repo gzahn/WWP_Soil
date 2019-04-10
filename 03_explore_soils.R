@@ -8,6 +8,7 @@ library(plyr)
 library(vegan)
 library(ade4)
 library(phyloseq)
+library(cooccur)
 
 # load phyloseq object (Full WWP data set) ####
 wwp = readRDS("./output/WWP_Full_phyloseq_object.RDS")
@@ -137,3 +138,31 @@ ggsave("./output/figs/NMDS_Mound-Intermound.png",dpi=300)
 
 
 #biplot(wcmd.full)
+
+
+
+
+
+# Species co-occurance ####
+
+# spp matrix
+pa = subset_taxa(wwp.pa,Kingdom != "Eukaryota")
+pa = subset_taxa(pa,Kingdom != "k__Viridiplantae")
+pa = subset_taxa(pa,Kingdom != "k__Metazoa")
+pa = subset_taxa(pa,Kingdom != "NA")
+tax = as(tax_table(pa),"matrix")
+taxids = paste(tax[,1],tax[,2],tax[,3],tax[,4],tax[,5],tax[,6],tax[,7])
+mat = as(otu_table(pa),"matrix")
+mat = as.data.frame(mat)
+names(mat) <- taxids
+
+# remove taxa found only from one sample
+mat <- mat[,(colSums(mat) > 1)]
+
+row.names(mat)
+names(mat)
+
+co = cooccur(mat,type = "site_spp", spp_names = TRUE, site_mask = NULL)
+saveRDS(co,"./output/co-occurrance_obj.RDS")
+obs.v.exp(co)
+plot.cooccur(co)
