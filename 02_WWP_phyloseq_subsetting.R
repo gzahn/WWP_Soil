@@ -7,13 +7,13 @@ library(tidyverse)
 
 #Load phyloseq objects
 Bact = readRDS("./output/phyloseq_object_16S_noncontam.RDS")
-Fung = readRDS("./output/phyloseq_object_ITS_noncontam.RDS")
+Fung = readRDS("./ITS/output/phyloseq_object_ITS_noncontam.RDS")
 
 # Subset to WWP samples
 Bact = subset_samples(Bact, Project_Name == "Woolsey_Wet_Prairie")
 Fung = subset_samples(Fung, Project_Name == "Woolsey_Wet_Prairie")
 
-# remove unwnated columns
+# remove unwanted columns
 bactcols = names(sample_data(Bact)) %in% c("SampleID","Latitude","Longitude","Elevation")
 fungcols = names(sample_data(Fung)) %in% c("SampleID","Latitude","Longitude","Elevation")
 sample_data(Bact) <- sample_data(Bact)[,bactcols]
@@ -40,9 +40,14 @@ wwp = subset_samples(wwp, sample_names(wwp) %ni% c("WS-Neg-1","WS-Neg-2","WS-Neg
 sample_data(wwp)["WS-3-2","per_som"] <- 4.83
 sample_data(wwp)["WS-15-5","per_som"] <- 2.6725
 
+
 # Re-separate fungi and bacteria for downstream
 Bact = subset_taxa(wwp, Kingdom == "Bacteria")
 Fung = subset_taxa(wwp, Kingdom == "k__Fungi")
+
+# sanity check
+table(Bact@tax_table@.Data[,1])
+table(Fung@tax_table@.Data[,1])
 
 # Remove singletons and doublets
 Bact = subset_taxa(Bact, taxa_sums(Bact) > 2)

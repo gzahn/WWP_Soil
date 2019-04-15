@@ -72,6 +72,7 @@ colnames(track) <- c("input", "filtered")
 # Export results
 write.csv(track, file = "./ITS/output/tracked_reads.csv", quote = FALSE)
 
+seqtab.nochim <- readRDS("./ITS/output/seqtab.nochim.RDS")
 # Assign taxonomy - Custom database including LOTS of outgroups ####
 taxa <- assignTaxonomy(seqtab.nochim,"./taxonomy/custom_RDP_ITS1_database.fasta.gz", multithread = TRUE)
 
