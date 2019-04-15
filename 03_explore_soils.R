@@ -8,8 +8,11 @@ library(plyr)
 library(vegan)
 library(ade4)
 library(phyloseq)
+<<<<<<< HEAD
 library(colorblindr)
 library(indicspecies)
+=======
+>>>>>>> d92246c706ca164937b41390f660eede785c524b
 library(cooccur)
 
 # Custom palette
@@ -241,6 +244,7 @@ ggplot(wcmd.df, aes(x=Dim1,y=Dim2, color = Position)) +
 ggsave("./output/figs/NMDS_Mound-Intermound.png",dpi=300)
 
 
+<<<<<<< HEAD
 
 # remove empty sample from wwp.pa
 empty = names(which(sample_sums(otu_table(wwp.pa))==0))
@@ -270,17 +274,33 @@ sink(NULL)
 # mound.indicators = row.names(full.indval.sign[full.indval.sign$s.Mound == 1,])
 # mound.indicators = tax_table(wwp.pa)[mound.indicators]
 # table(mound.indicators)
+=======
+#biplot(wcmd.full)
+
+
+
+
+>>>>>>> d92246c706ca164937b41390f660eede785c524b
 
 # Species co-occurance ####
 
 # spp matrix
+<<<<<<< HEAD
 
 tax = as(tax_table(wwp.pa),"matrix")
+=======
+pa = subset_taxa(wwp.pa,Kingdom != "Eukaryota")
+pa = subset_taxa(pa,Kingdom != "k__Viridiplantae")
+pa = subset_taxa(pa,Kingdom != "k__Metazoa")
+pa = subset_taxa(pa,Kingdom != "NA")
+tax = as(tax_table(pa),"matrix")
+>>>>>>> d92246c706ca164937b41390f660eede785c524b
 taxids = paste(tax[,1],tax[,2],tax[,3],tax[,4],tax[,5],tax[,6],tax[,7])
 mat = as(otu_table(pa),"matrix")
 mat = as.data.frame(mat)
 names(mat) <- taxids
 
+<<<<<<< HEAD
 unique(tax_table(pa)[,1])
 
 # remove taxa found only from two or fewer sample
@@ -318,3 +338,15 @@ eff.big = eff[which(abs(eff$effects) > 0.1),]
 eff.big = eff.big[!str_detect(eff.big$sp1,"k__Fungi NA NA NA NA NA NA"),]
 eff.big = eff.big[!str_detect(eff.big$sp2,"k__Fungi NA NA NA NA NA NA"),]
 plot(eff.big$effects)
+=======
+# remove taxa found only from one sample
+mat <- mat[,(colSums(mat) > 1)]
+
+row.names(mat)
+names(mat)
+
+co = cooccur(mat,type = "site_spp", spp_names = TRUE, site_mask = NULL)
+saveRDS(co,"./output/co-occurrance_obj.RDS")
+obs.v.exp(co)
+plot.cooccur(co)
+>>>>>>> d92246c706ca164937b41390f660eede785c524b
