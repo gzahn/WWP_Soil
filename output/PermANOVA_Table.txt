@@ -1,0 +1,18 @@
+
+Call:
+adonis(formula = otu_table(wwp.pa2) ~ sample_data(wwp.pa2)$cluster +      sample_data(wwp.pa2)$PerN + sample_data(wwp.pa2)$PerC + sample_data(wwp.pa2)$Position,      method = "jaccard") 
+
+Permutation: free
+Number of permutations: 999
+
+Terms added sequentially (first to last)
+
+                               Df SumsOfSqs MeanSqs F.Model      R2 Pr(>F)    
+sample_data(wwp.pa2)$cluster    1     0.797 0.79700  1.7141 0.01172  0.001 ***
+sample_data(wwp.pa2)$PerN       1     0.591 0.59080  1.2707 0.00868  0.008 ** 
+sample_data(wwp.pa2)$PerC       1     0.608 0.60819  1.3080 0.00894  0.004 ** 
+sample_data(wwp.pa2)$Position   1     0.941 0.94075  2.0233 0.01383  0.001 ***
+Residuals                     140    65.094 0.46496         0.95683           
+Total                         144    68.031                 1.00000           
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
