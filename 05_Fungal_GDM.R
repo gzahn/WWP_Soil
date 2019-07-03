@@ -38,15 +38,16 @@ gdmTab[1:3,]
 
 # Try with sampleSitePairs = .01, nPerm = 50
 # Re-run on cluster with ncores=12, nPerm = 99, and sampleSitePairs = 1
-all.vars <- gdm.varImp(gdmTab, geo=TRUE, splines = NULL, knots = NULL, fullModelOnly = FALSE, 
+all.vars <- gdm.varImp(gdmTab, geo=TRUE, splines = NULL, knots = NULL, fullModelOnly = TRUE, 
                        nPerm = 50, sampleSites = 1, 
-                       sampleSitePairs = .01, outFile = "all_GDM")
+                       sampleSitePairs = 1, outFile = "GDM_VarImp_Jaccard")
 
 warnings()
 # That step takes about forever minutes to run on 4 cores! ... Save the output somewhere handy:
 saveRDS(all.vars, "./output/GDM_Var_Imp.RDS")
 
-all.vars
+# inspect GDM variable importance
+summary(all.vars)
 
 #Significant varibles only
 sd.sig <- sd[,c(1:4,8,10,13,18,32,33)]
@@ -55,11 +56,11 @@ names(sd[,c(1:4,8,10,13,18,32,33)])
 
 #change the predData to the subset you want
 gdmTab.sig <- formatsitepair(bioData = otu, bioFormat = 1, XColumn = "lon", YColumn = "lat", 
-                             siteColumn = "X", predData = sd.sig, abundance = TRUE)
+                             siteColumn = "X", predData = sd, abundance = FALSE)
 gdmTab.sig[1:3,]
 
 # Run GDM
-gdm.sig <- gdm(gdmTab.sig, geo=T)
+gdm.sig <- gdm(gdmTab, geo=T)
 
 # Summary
 summary(gdm.sig)
