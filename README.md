@@ -13,3 +13,7 @@ WWP* phyloseq.RDS are the WWP phyloseq objects.
 I ran ITS fwd reads through ITSxpress before running them through DADA2 with the following:
 for fn in ./ITS/*.fastq.gz;do echo $fn; itsxpress --fastq $fn -s --outfile ./ITS/$fn.ITS1 --region ITS1 --taxa Fungi --log ./ITS/$fn.log --threads 10; done
 
+<<<<<<< HEAD
+=======
+metadata.xlsx was the full Illumina run metadata, including other projects. Need to copy it over here from office machine.
+>>>>>>> 8b26fb660a77daf2779b6415e06cb0e3db9de778

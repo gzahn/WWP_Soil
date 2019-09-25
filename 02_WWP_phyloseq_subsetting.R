@@ -63,10 +63,30 @@ wwp = subset_samples(wwp, sample_sums(wwp) > 0)
 # convert wwp OTU table to presence-absence so ITS and 16S can be compared
 wwp.pa <- transform_sample_counts(wwp, function(abund) 1*(abund>0))
 
+<<<<<<< HEAD
+=======
+# Same for Bact and Fung
+Bact.pa <- transform_sample_counts(Bact, function(abund) 1*(abund>0))
+Fung.pa <- transform_sample_counts(Fung, function(abund) 1*(abund>0))
+
+# Convert to relative abundance values
+Bact.ra <- transform_sample_counts(Bact,function(x) x/sum(x))
+Fung.ra <- transform_sample_counts(Fung,function(x) x/sum(x))
+
+
+>>>>>>> 8b26fb660a77daf2779b6415e06cb0e3db9de778
 # Save phyloseq objects as files
 saveRDS(Bact, "./output/WWP_16S_phyloseq.RDS")
 saveRDS(Fung, "./output/WWP_ITS_phyloseq.RDS")
 saveRDS(wwp.pa, "./output/WWP_Full_phyloseq_object_presence-absence.RDS")
+<<<<<<< HEAD
 saveRDS(wwp,"output/WWP_Full_phyloseq_object.RDS")
+=======
+saveRDS(wwp,"./output/WWP_Full_phyloseq_object.RDS")
+saveRDS(Fung.ra, "./output/WWP_ITS_phyloseq_relabund.RDS")
+saveRDS(Bact.ra, "./output/WWP_16S_phyloseq_relabund.RDS")
+saveRDS(Fung.pa, "./output/WWP_ITS_phyloseq_pres-abs.RDS")
+saveRDS(Bact.pa, "./output/WWP_16S_phyloseq_pres-abs.RDS")
+>>>>>>> 8b26fb660a77daf2779b6415e06cb0e3db9de778
 
 
