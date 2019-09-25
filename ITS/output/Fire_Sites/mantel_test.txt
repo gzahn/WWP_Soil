@@ -1,0 +1,11 @@
+Monte-Carlo test
+Call: mantelnoneuclid(m1 = m1, m2 = m2, nrepet = nrepet)
+
+Observation: 0.1196428 
+
+Based on 9999 replicates
+Simulated p-value: 2e-04 
+Alternative hypothesis: greater 
+
+     Std.Obs  Expectation     Variance 
+2.4366418600 0.0002247589 0.0024019073 

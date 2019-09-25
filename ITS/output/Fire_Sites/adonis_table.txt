@@ -1,0 +1,17 @@
+
+Call:
+adonis(formula = otu_table(ps_ra) ~ ps_ra@sam_data$BurnYear *      ps_ra@sam_data$FireTreatment) 
+
+Permutation: free
+Number of permutations: 999
+
+Terms added sequentially (first to last)
+
+                                                     Df SumsOfSqs MeanSqs F.Model      R2 Pr(>F)    
+ps_ra@sam_data$BurnYear                               1    1.0445 1.04448  2.2971 0.04197  0.001 ***
+ps_ra@sam_data$FireTreatment                          1    0.5229 0.52290  1.1500 0.02101  0.188    
+ps_ra@sam_data$BurnYear:ps_ra@sam_data$FireTreatment  1    0.5827 0.58274  1.2816 0.02342  0.091 .  
+Residuals                                            50   22.7350 0.45470         0.91360           
+Total                                                53   24.8851                 1.00000           
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
